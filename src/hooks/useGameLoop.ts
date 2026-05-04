@@ -41,10 +41,10 @@ function lockAndContinue(prev: GameState): GameState {
   }
 }
 
-export function useGameLoop() {
+export function useGameLoop(gravityMs = 600) {
   const [state, setState] = useState<GameState>(createInitialState)
 
-  // Gravity: 600ms ごとに1行落下
+  // Gravity: gravityMs ごとに1行落下
   useEffect(() => {
     if (state.phase !== 'playing') return
 
@@ -56,7 +56,7 @@ export function useGameLoop() {
         }
         return lockAndContinue(prev)
       })
-    }, 600)
+    }, gravityMs)
 
     return () => clearInterval(id)
   }, [state.phase])
